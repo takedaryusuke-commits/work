@@ -11,10 +11,28 @@ let currentFilters = {
 
 // 初期化
 document.addEventListener('DOMContentLoaded', function() {
-    initializeCharts();
-    initializeHeatmap();
-    initializeFilters();
-    updateSummary();
+    console.log('DOM loaded');
+    console.log('Chart available:', typeof Chart);
+    console.log('mockData available:', typeof mockData);
+    
+    if (typeof Chart === 'undefined') {
+        console.error('Chart.js not loaded!');
+        return;
+    }
+    if (typeof mockData === 'undefined') {
+        console.error('data.js not loaded!');
+        return;
+    }
+    
+    try {
+        initializeCharts();
+        initializeHeatmap();
+        initializeFilters();
+        updateSummary();
+        console.log('Initialization complete');
+    } catch (error) {
+        console.error('Initialization error:', error);
+    }
 });
 
 // チャート初期化
@@ -93,7 +111,6 @@ function initializeFilters() {
     // ボタンイベント
     document.getElementById('applyFilters').addEventListener('click', applyFilters);
     document.getElementById('resetFilters').addEventListener('click', resetFilters);
-    document.getElementById('printReport').addEventListener('click', printReport);
     
     // 軸選択イベント
     document.getElementById('reductionYAxis').addEventListener('change', updateReductionHeatmap);
@@ -286,9 +303,4 @@ function showLoading() {
 function hideLoading() {
     const loading = document.getElementById('loading');
     if (loading) loading.classList.add('hidden');
-}
-
-// 印刷機能
-function printReport() {
-    window.print();
 }
