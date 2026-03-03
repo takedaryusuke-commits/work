@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>売却追客・商談用市況レポート</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- ヘッダー -->
+        <header class="header">
+            <h1>売却追客・商談用市況レポート</h1>
+            <p class="subtitle">査定物件周辺の市況データ分析</p>
+            <!-- 検索エリア情報と対象物件数 -->
+            <div class="search-info">
+                <div class="area-info">
+                    <span id="searchArea">東京都新宿区西新宿1丁目-1-1半径2km</span>
+                </div>
+                <div class="result-count">
+                    <span class="count-label">対象物件数:</span>
+                    <span id="headerTotalCount" class="count-value">10件</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- フィルターセクション -->
+        <section class="filter-section">
+            <h2>検索条件</h2>
+            <div class="filter-grid">
+                <div class="filter-item">
+                    <label for="propertyType">物件種別</label>
+                    <select id="propertyType">
+                        <option value="中古マンション">中古マンション</option>
+                        <option value="新築戸建">新築戸建</option>
+                        <option value="中古戸建">中古戸建</option>
+                        <option value="土地">土地</option>
+                    </select>
+                </div>
+                
+                <div class="filter-item">
+                    <label for="radius">半径</label>
+                    <select id="radius">
+                        <option value="0.5">0.5km</option>
+                        <option value="1">1km</option>
+                        <option value="2" selected>2km</option>
+                        <option value="3">3km</option>
+                        <option value="5">5km</option>
+                    </select>
+                </div>
+                
+                <div class="filter-item">
+                    <label for="walkTime">駅徒歩</label>
+                    <select id="walkTime">
+                        <option value="全て" selected>全て</option>
+                        <option value="0-5分">0-5分</option>
+                        <option value="6-10分">6-10分</option>
+                        <option value="11-15分">11-15分</option>
+                        <option value="16-20分">16-20分</option>
+                        <option value="21分以上">21分以上</option>
+                    </select>
+                </div>
+                
+                <div class="filter-item">
+                    <label for="buildingAge">築年数</label>
+                    <select id="buildingAge">
+                        <option value="全て" selected>全て</option>
+                        <option value="築5年以内">築5年以内</option>
+                        <option value="築10年以内">築10年以内</option>
+                        <option value="築15年以内">築15年以内</option>
+                        <option value="築20年以内">築20年以内</option>
+                        <option value="築20年超">築20年超</option>
+                    </select>
+                </div>
+                
+                <div class="filter-item">
+                    <label for="layout">間取り</label>
+                    <select id="layout">
+                        <option value="全て" selected>全て</option>
+                        <option value="1R・1K">1R・1K</option>
+                        <option value="1DK・1LDK">1DK・1LDK</option>
+                        <option value="2DK・2LDK">2DK・2LDK</option>
+                        <option value="3DK・3LDK">3DK・3LDK</option>
+                        <option value="4LDK以上">4LDK以上</option>
+                    </select>
+                </div>
+                
+                <div class="filter-item">
+                    <label for="area">広さ</label>
+                    <select id="area">
+                        <option value="全て" selected>全て</option>
+                        <option value="30㎡未満">30㎡未満</option>
+                        <option value="30-50㎡">30-50㎡</option>
+                        <option value="50-70㎡">50-70㎡</option>
+                        <option value="70-90㎡">70-90㎡</option>
+                        <option value="90㎡以上">90㎡以上</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="filter-actions">
+                <button id="resetFilters" class="btn-secondary">フィルターリセット</button>
+                <button id="printReport" class="btn-print">印刷</button>
+                <button id="applyFilters" class="btn-primary">検索実行</button>
+            </div>
+        </section>
+
+        <!-- メインコンテンツ -->
+        <main class="main-content">
+            <!-- 推移グラフセクション -->
+            <section class="chart-section">
+                <h2>市況推移データ（過去5年）</h2>
+                <div class="chart-container">
+                    <div class="chart-item">
+                        <h3>掲載件数推移</h3>
+                        <canvas id="listingCountChart"></canvas>
+                    </div>
+                    <div class="chart-item">
+                        <h3>平均価格推移</h3>
+                        <canvas id="priceAverageChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ヒートマップセクション -->
+            <section class="heatmap-section">
+                <h2>分布マトリックス</h2>
+                
+                <!-- 平均下げ幅マトリックス -->
+                <div class="matrix-container">
+                    <h3>平均下げ幅マトリックス</h3>
+                    <div class="heatmap-controls">
+                        <div class="axis-selector">
+                            <label for="reductionYAxis">縦軸:</label>
+                            <select id="reductionYAxis">
+                                <option value="price" selected>価格帯</option>
+                                <option value="age">築年数</option>
+                                <option value="area">広さ</option>
+                            </select>
+                        </div>
+                        <div class="axis-selector">
+                            <label for="reductionXAxis">横軸:</label>
+                            <select id="reductionXAxis">
+                                <option value="walkTime" selected>駅徒歩</option>
+                                <option value="layout">間取り</option>
+                            </select>
+                        </div>
+                        <div class="axis-selector">
+                            <label for="reductionYear">年:</label>
+                            <select id="reductionYear">
+                                <option value="2023" selected>2023年</option>
+                                <option value="2022">2022年</option>
+                                <option value="2021">2021年</option>
+                                <option value="2020">2020年</option>
+                                <option value="2019">2019年</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="reductionHeatmapContainer" class="heatmap-container">
+                        <!-- 平均下げ幅ヒートマップがここに動的生成される -->
+                    </div>
+                </div>
+
+                <!-- 平均価格更新回数マトリックス -->
+                <div class="matrix-container">
+                    <h3>平均価格更新回数マトリックス</h3>
+                    <div class="heatmap-controls">
+                        <div class="axis-selector">
+                            <label for="updatesYAxis">縦軸:</label>
+                            <select id="updatesYAxis">
+                                <option value="price" selected>価格帯</option>
+                                <option value="age">築年数</option>
+                                <option value="area">広さ</option>
+                            </select>
+                        </div>
+                        <div class="axis-selector">
+                            <label for="updatesXAxis">横軸:</label>
+                            <select id="updatesXAxis">
+                                <option value="walkTime" selected>駅徒歩</option>
+                                <option value="layout">間取り</option>
+                            </select>
+                        </div>
+                        <div class="axis-selector">
+                            <label for="updatesYear">年:</label>
+                            <select id="updatesYear">
+                                <option value="2023" selected>2023年</option>
+                                <option value="2022">2022年</option>
+                                <option value="2021">2021年</option>
+                                <option value="2020">2020年</option>
+                                <option value="2019">2019年</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="updatesHeatmapContainer" class="heatmap-container">
+                        <!-- 平均価格更新回数ヒートマップがここに動的生成される -->
+                    </div>
+                </div>
+            </section>
+
+
+        </main>
+
+        <!-- フッター -->
+        <footer class="footer">
+            <p>&copy; 2024 売却追客・商談用市況レポート MVP</p>
+        </footer>
+    </div>
+
+    <!-- ローディング表示 -->
+    <div id="loading" class="loading hidden">
+        <div class="loading-spinner"></div>
+        <p>データを更新中...</p>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
