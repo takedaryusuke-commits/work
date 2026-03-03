@@ -127,7 +127,7 @@ body {
     justify-content: flex-end;
 }
 
-.btn-primary, .btn-secondary, .btn-print {
+.btn-primary, .btn-secondary {
     padding: 12px 24px;
     border: none;
     border-radius: 5px;
@@ -154,16 +154,6 @@ body {
 
 .btn-secondary:hover {
     background-color: #7f8c8d;
-}
-
-.btn-print {
-    background-color: #27ae60;
-    color: white;
-}
-
-.btn-print:hover {
-    background-color: #229954;
-    transform: translateY(-2px);
 }
 
 /* メインコンテンツ */
