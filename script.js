@@ -272,15 +272,20 @@ function renderHeatmap(heatmapData, containerId, unit) {
     container.innerHTML = html;
 }
 
-
+// サマリー更新
+function updateSummary() {
+    updateHeaderCount();
+}
 
 // ローディング表示/非表示
 function showLoading() {
-    document.getElementById('loading').classList.remove('hidden');
+    const loading = document.getElementById('loading');
+    if (loading) loading.classList.remove('hidden');
 }
 
 function hideLoading() {
-    document.getElementById('loading').classList.add('hidden');
+    const loading = document.getElementById('loading');
+    if (loading) loading.classList.add('hidden');
 }
 
 // 印刷機能
