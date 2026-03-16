@@ -233,7 +233,11 @@ function generateReductionHeatmapData(yAxis, xAxis, year) {
     // 年と軸によるランダムデータ生成（更新額: 0-300万円、小数点1桁）
     const yearMultiplier = (2024 - parseInt(year)) * 0.1 + 0.8;
     const data = yLabels.map(() => 
-        xLabels.map(() => (Math.random() * 300 * yearMultiplier).toFixed(1) + '万円')
+        xLabels.map(() => {
+            const amount = (Math.random() * 300 * yearMultiplier).toFixed(1);
+            const percentage = (Math.random() * 7 + 3).toFixed(1); // 3%〜10%
+            return amount + '万円<br>' + percentage + '%';
+        })
     );
     
     return { yLabels, xLabels, data };
@@ -275,7 +279,11 @@ function renderHeatmap(heatmapData, containerId, unit) {
     
     // 数値のみを抽出して最大値を計算
     const numericData = heatmapData.data.map(row => 
-        row.map(val => parseFloat(val))
+        row.map(val => {
+            // HTMLタグや文字を除外して最初の数値を抽出
+            const match = val.toString().match(/([0-9.]+)/);
+            return match ? parseFloat(match[1]) : 0;
+        })
     );
     const maxValue = Math.max(...numericData.flat());
     
@@ -284,9 +292,9 @@ function renderHeatmap(heatmapData, containerId, unit) {
         html += `<tr><th>${yLabel}</th>`;
         heatmapData.xLabels.forEach((xLabel, xIndex) => {
             const value = heatmapData.data[yIndex][xIndex];
-            const numericValue = parseFloat(value);
+            const numericValue = numericData[yIndex][xIndex];
             const heatLevel = Math.min(Math.floor((numericValue / maxValue) * 10), 10);
-            html += `<td class="heatmap-cell heat-${heatLevel}" title="${yLabel} × ${xLabel}: ${value}">${value}</td>`;
+            html += `<td class="heatmap-cell heat-${heatLevel}" title="${yLabel} × ${xLabel}">${value}</td>`;
         });
         html += '</tr>';
     });
