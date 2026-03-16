@@ -204,7 +204,7 @@ function updateReductionHeatmap() {
     const year = document.getElementById('reductionYear').value;
     
     const heatmapData = generateReductionHeatmapData(yAxis, xAxis, year);
-    renderHeatmap(heatmapData, 'reductionHeatmapContainer', '万円');
+    renderHeatmap(heatmapData, 'reductionHeatmapContainer', '');
 }
 
 // 平均価格更新回数ヒートマップ更新
@@ -214,7 +214,7 @@ function updateUpdatesHeatmap() {
     const year = document.getElementById('updatesYear').value;
     
     const heatmapData = generateUpdatesHeatmapData(yAxis, xAxis, year);
-    renderHeatmap(heatmapData, 'updatesHeatmapContainer', '回');
+    renderHeatmap(heatmapData, 'updatesHeatmapContainer', '');
 }
 
 // 平均価格更新額ヒートマップデータ生成
@@ -233,7 +233,7 @@ function generateReductionHeatmapData(yAxis, xAxis, year) {
     // 年と軸によるランダムデータ生成（更新額: 0-300万円、小数点1桁）
     const yearMultiplier = (2024 - parseInt(year)) * 0.1 + 0.8;
     const data = yLabels.map(() => 
-        xLabels.map(() => (Math.random() * 300 * yearMultiplier).toFixed(1))
+        xLabels.map(() => (Math.random() * 300 * yearMultiplier).toFixed(1) + '万円')
     );
     
     return { yLabels, xLabels, data };
@@ -255,7 +255,7 @@ function generateUpdatesHeatmapData(yAxis, xAxis, year) {
     // 年と軸によるランダムデータ生成（更新回数: 0-5回、小数点1桁）
     const yearMultiplier = (2024 - parseInt(year)) * 0.2 + 0.6;
     const data = yLabels.map(() => 
-        xLabels.map(() => (Math.random() * 5 * yearMultiplier).toFixed(1))
+        xLabels.map(() => (Math.random() * 5 * yearMultiplier).toFixed(1) + '回')
     );
     
     return { yLabels, xLabels, data };
