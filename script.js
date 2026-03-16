@@ -197,14 +197,14 @@ function updateCharts() {
     priceChart.update();
 }
 
-// 平均下げ幅ヒートマップ更新
+// 平均価格更新額ヒートマップ更新
 function updateReductionHeatmap() {
     const yAxis = document.getElementById('reductionYAxis').value;
     const xAxis = document.getElementById('reductionXAxis').value;
     const year = document.getElementById('reductionYear').value;
     
     const heatmapData = generateReductionHeatmapData(yAxis, xAxis, year);
-    renderHeatmap(heatmapData, 'reductionHeatmapContainer', '下げ幅(万円)');
+    renderHeatmap(heatmapData, 'reductionHeatmapContainer', '万円');
 }
 
 // 平均価格更新回数ヒートマップ更新
@@ -214,10 +214,10 @@ function updateUpdatesHeatmap() {
     const year = document.getElementById('updatesYear').value;
     
     const heatmapData = generateUpdatesHeatmapData(yAxis, xAxis, year);
-    renderHeatmap(heatmapData, 'updatesHeatmapContainer', '更新回数(回)');
+    renderHeatmap(heatmapData, 'updatesHeatmapContainer', '回');
 }
 
-// 平均下げ幅ヒートマップデータ生成
+// 平均価格更新額ヒートマップデータ生成
 function generateReductionHeatmapData(yAxis, xAxis, year) {
     const axisLabels = {
         price: ["2000万円台", "3000万円台", "4000万円台", "5000万円台", "6000万円台"],
@@ -230,10 +230,10 @@ function generateReductionHeatmapData(yAxis, xAxis, year) {
     const yLabels = axisLabels[yAxis];
     const xLabels = axisLabels[xAxis];
     
-    // 年と軸によるランダムデータ生成（下げ幅: 0-300万円）
+    // 年と軸によるランダムデータ生成（更新額: 0-300万円、小数点1桁）
     const yearMultiplier = (2024 - parseInt(year)) * 0.1 + 0.8;
     const data = yLabels.map(() => 
-        xLabels.map(() => Math.floor(Math.random() * 300 * yearMultiplier))
+        xLabels.map(() => (Math.random() * 300 * yearMultiplier).toFixed(1))
     );
     
     return { yLabels, xLabels, data };
@@ -252,10 +252,10 @@ function generateUpdatesHeatmapData(yAxis, xAxis, year) {
     const yLabels = axisLabels[yAxis];
     const xLabels = axisLabels[xAxis];
     
-    // 年と軸によるランダムデータ生成（更新回数: 0-5回）
+    // 年と軸によるランダムデータ生成（更新回数: 0-5回、小数点1桁）
     const yearMultiplier = (2024 - parseInt(year)) * 0.2 + 0.6;
     const data = yLabels.map(() => 
-        xLabels.map(() => Math.floor(Math.random() * 5 * yearMultiplier))
+        xLabels.map(() => (Math.random() * 5 * yearMultiplier).toFixed(1))
     );
     
     return { yLabels, xLabels, data };
