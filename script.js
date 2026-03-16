@@ -273,14 +273,20 @@ function renderHeatmap(heatmapData, containerId, unit) {
     });
     html += '</tr></thead><tbody>';
     
+    // 数値のみを抽出して最大値を計算
+    const numericData = heatmapData.data.map(row => 
+        row.map(val => parseFloat(val))
+    );
+    const maxValue = Math.max(...numericData.flat());
+    
     // データ行
     heatmapData.yLabels.forEach((yLabel, yIndex) => {
         html += `<tr><th>${yLabel}</th>`;
         heatmapData.xLabels.forEach((xLabel, xIndex) => {
             const value = heatmapData.data[yIndex][xIndex];
-            const maxValue = Math.max(...heatmapData.data.flat());
-            const heatLevel = Math.min(Math.floor((value / maxValue) * 10), 10);
-            html += `<td class="heatmap-cell heat-${heatLevel}" title="${yLabel} × ${xLabel}: ${value}${unit}">${value}</td>`;
+            const numericValue = parseFloat(value);
+            const heatLevel = Math.min(Math.floor((numericValue / maxValue) * 10), 10);
+            html += `<td class="heatmap-cell heat-${heatLevel}" title="${yLabel} × ${xLabel}: ${value}">${value}</td>`;
         });
         html += '</tr>';
     });
