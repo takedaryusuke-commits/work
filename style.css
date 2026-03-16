@@ -18,6 +18,17 @@ body {
     padding: 20px;
 }
 
+.data-insight {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-top: 15px;
+    padding: 12px 15px;
+    background: #f8f9fa;
+    border-left: 3px solid #3498db;
+    border-radius: 4px;
+}
+
 /* ヘッダー */
 .header {
     text-align: center;
@@ -190,7 +201,7 @@ body {
 
 .chart-item h3 {
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     color: #555;
     font-size: 1.1rem;
 }
