@@ -110,17 +110,16 @@
             <!-- 推移グラフセクション -->
             <section class="chart-section">
                 <h2>市況推移データ（過去5年）</h2>
-                <p class="section-description">過去5年間の掲載件数と平均価格の推移を表示しています。市場の供給動向と価格変動のトレンドを確認できます。</p>
                 <div class="chart-container">
                     <div class="chart-item">
                         <h3>掲載件数推移</h3>
-                        <p class="chart-description">対象エリアにおける物件掲載数の年次変化を示しています。件数の増減から市場の供給状況を把握できます。</p>
                         <canvas id="listingCountChart"></canvas>
+                        <p class="data-insight">掲載件数は2019年120件から2022年156件まで増加しましたが、2023年は142件とやや減少しています。</p>
                     </div>
                     <div class="chart-item">
                         <h3>平均価格推移</h3>
-                        <p class="chart-description">対象エリアの平均掲載価格の年次変化を示しています。価格の上昇・下落傾向を確認できます。</p>
                         <canvas id="priceAverageChart"></canvas>
+                        <p class="data-insight">平均価格は2019年3200万円から2023年3620万円へと上昇傾向が続いています。5年間で約420万円（13%）の上昇です。</p>
                     </div>
                 </div>
             </section>
@@ -128,12 +127,10 @@
             <!-- ヒートマップセクション -->
             <section class="heatmap-section">
                 <h2>価格更新情報</h2>
-                <p class="section-description">物件の価格更新に関するデータを表示しています。縦軸・横軸を変更することで、様々な角度から分析が可能です。</p>
                 
                 <!-- 平均価格更新額 -->
                 <div class="matrix-container">
                     <h3>平均価格更新額</h3>
-                    <p class="matrix-description">物件の価格が平均でどの程度変更されているかを金額と割合で示しています。条件ごとの価格変動幅を比較できます。</p>
                     <div class="heatmap-controls">
                         <div class="axis-selector">
                             <label for="reductionYAxis">縦軸:</label>
@@ -164,12 +161,12 @@
                     <div id="reductionHeatmapContainer" class="heatmap-container">
                         <!-- 平均下げ幅ヒートマップがここに動的生成される -->
                     </div>
+                    <p class="data-insight">価格帯や駅徒歩などの条件によって価格更新額に差が見られます。色が濃いセルほど更新額が大きいことを示しています。</p>
                 </div>
 
                 <!-- 平均価格更新回数 -->
                 <div class="matrix-container">
                     <h3>平均価格更新回数</h3>
-                    <p class="matrix-description">物件が掲載期間中に価格を変更した平均回数を示しています。更新回数が多いほど価格調整が頻繁に行われていることを示します。</p>
                     <div class="heatmap-controls">
                         <div class="axis-selector">
                             <label for="updatesYAxis">縦軸:</label>
@@ -200,6 +197,7 @@
                     <div id="updatesHeatmapContainer" class="heatmap-container">
                         <!-- 平均価格更新回数ヒートマップがここに動的生成される -->
                     </div>
+                    <p class="data-insight">価格更新回数は物件の条件によって異なります。更新回数が多いセグメントでは、価格調整が頻繁に行われている傾向があります。</p>
                 </div>
             </section>
 
